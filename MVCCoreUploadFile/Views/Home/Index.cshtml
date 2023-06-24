@@ -1,0 +1,56 @@
+﻿@model MVCCoreUploadFile.Models.SingleFileModel
+
+@{
+    ViewData["Title"] = "Tek Dosya Yükleme";
+}
+
+@*post yöntemleriyle bir form oluşturdum 
+ve Upload controller ve Upload Action yöntemine yönlendirdim.*@
+
+@* form verilerini (dosyaları) diğer verilerle birlikte geçiriyoruz, 
+bu nedenle form etiketine enctype = "multipart/form-data" niteliğini ekledik.*@
+@*
+ IsSuccess özelliğine göre sırasıyla başarı ve tehlike olan bootstrap'ın 
+ uyarı bileşeninde başarı ve hata mesajını göstermek için yanıt modelimiz kullanıldı.*@
+
+<form asp-action="Upload" asp-controller="Home" method="post" enctype="multipart/form-data">
+
+    @if(Model.IsResponse)
+    {
+        if (Model.IsSuccess)
+        {
+            <div class="alert alert-success">
+                @Model.message
+            </div>
+        }
+        else
+        {
+              <div class="alert alert-danger">
+                @Model.message
+            </div>
+            
+        }
+    }
+    <div class="row">
+        <div class="col-12">
+            <label class="col-form-label">Dosya Adı Girin</label>
+            <input asp-for="FileName" class="form-control" />
+            <span asp-validation-for="FileName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <label class="col-form-label">Dosya Seç</label>
+            <input asp-for="File" class="form-control" />
+            <span asp-validation-for="File" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+           <button type="submit" class="btn-success">Yükle Gardaş</button>
+        </div>
+    </div>
+
+</form>
