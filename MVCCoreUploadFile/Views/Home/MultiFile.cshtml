@@ -1,0 +1,47 @@
+﻿@model MVCCoreUploadFile.Models.MultipleFilesModel
+
+@{
+    ViewData["Title"] = "Çoklu Dosya Yükleme";
+}
+
+<form asp-action="MultiUpload" asp-controller="Home" method="post" enctype="multipart/form-data">
+
+    @if (Model.IsResponse)
+    {
+        if (Model.IsSuccess)
+        {
+            <div class="alert alert-success">
+                @Model.message
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                @Model.message
+            </div>
+
+        }
+    }
+    @* <div class="row">
+    <div class="col-12">
+    <label class="col-form-label">Dosya Adı Girin</label>
+    <input asp-for="FileName" class="form-control" />
+    <span asp-validation-for="FileName" class="text-danger"></span>
+    </div>
+    </div>*@
+
+    <div class="row">
+        <div class="col-12">
+            <label class="col-form-label">Dosya Seç</label>
+            <input asp-for="Files" class="form-control" />
+            <span asp-validation-for="Files" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <button type="submit" class="btn-success">Çok Yükle Gardaş</button>
+        </div>
+    </div>
+
+</form>

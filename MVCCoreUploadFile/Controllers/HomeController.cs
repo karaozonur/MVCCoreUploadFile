@@ -20,6 +20,15 @@ namespace MVCCoreUploadFile.Controllers
             
             return View(model);
         }
+        public IActionResult MultiFile(MultipleFilesModel model)
+        {
+            //= new SingleFileModel();
+
+            return View(model);
+        }
+
+
+        
         //SingleFileModel - Tek Dosya Yükleme
         //SingleFileModel'i parametre olarak kabul eden Upload adında bir post metodu oluşturuyoruz.
         // ModelState.Valid özelliğini kullanarak modelimizin geçerli olup olmadığını kontrol ediyoruz.
@@ -64,7 +73,41 @@ namespace MVCCoreUploadFile.Controllers
             //}
             return View("Index",model);
         }
- 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MultiUpload(MultipleFilesModel model)
+        {
+            //if (ModelState.IsValid)
+            //{
+                model.IsResponse = true;
+                if (model.Files.Count>0)
+                {
+                    foreach (var item in model.Files)
+                    {
+                        string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+                        string fileNameWithPath = Path.Combine(path, item.FileName);
+                        using (var stream=new FileStream(fileNameWithPath, FileMode.Create))
+                        {
+                            item.CopyTo(stream);
+
+                        }
+                    }
+                    model.IsSuccess=true;
+                    model.message = "Başarı";
+                }
+            //}
+            //else
+            //{
+            //    model.IsSuccess = false;
+            //    model.message = "Başarısız";
+            //}
+            return View("MultiFile",model);
+        }
 
 
         public IActionResult Privacy()
